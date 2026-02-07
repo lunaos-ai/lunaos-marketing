@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - LunaOS</title>
+    <meta name="description" content="See LunaOS in action - interactive demo of AI agent deployment and management.">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        body { 
+            font-family: 'Space Grotesk', sans-serif; 
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .gradient-bg { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+        }
+        
+        .hero-gradient { 
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+        
+        .demo-terminal { 
+            background: #1a1a1a; 
+            color: #f8f8f2; 
+            font-family: 'Monaco', 'Menlo', monospace;
+            border: 1px solid rgba(120, 119, 198, 0.2);
+            border-radius: 0.5rem;
+        }
+        
+        .typing-animation { 
+            overflow: hidden; 
+            border-right: 2px solid #f8f8f2; 
+            white-space: nowrap; 
+            animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite; 
+        }
+        
+        @keyframes typing { 
+            from { width: 0; } 
+            to { width: 100%; } 
+        }
+        
+        @keyframes blink-caret { 
+            from, to { border-color: transparent; } 
+            50% { border-color: #f8f8f2; } 
+        }
+        
+        .demo-step { 
+            opacity: 0; 
+            transform: translateY(20px); 
+            transition: all 0.5s ease; 
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .demo-step.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3), 0 0 50px rgba(120, 119, 198, 0.2);
+        }
+        
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .text-3d {
+            text-shadow: 0 0 20px rgba(120, 119, 198, 0.5),
+                         0 0 40px rgba(120, 119, 198, 0.3),
+                         0 0 60px rgba(120, 119, 198, 0.1);
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(120, 119, 198, 0.3),
+                        0 0 40px rgba(120, 119, 198, 0.2),
+                        0 0 60px rgba(120, 119, 198, 0.1);
+        }
+        
+        .floating-element {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .bg-dark {
+            background: #0a0a0a;
+        }
+        
+        .text-glow {
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.5), transparent);
+            margin: 4rem 0;
+        }
+    </style>
+</head>
+<body class="bg-dark">
+    <!-- Navigation -->
+    <nav class="nav-glass fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-white text-glow">🌙 LunaOS</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                    <a href="index.html#features" class="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Features</a>
+                    <a href="index.html#pricing" class="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Pricing</a>
+                    <a href="docs.html" class="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Docs</a>
+                    <a href="contact.html" class="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Contact</a>
+                    <a href="get-started.html" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full text-sm font-medium hover:from-purple-700 hover:to-blue-700 glow-effect transition-all">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-16 pb-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 relative z-10">
+            <div class="text-center">
+                <div class="floating-element">
+                    <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 text-3d">
+                        See LunaOS<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">in Action</span>
+                    </h1>
+                </div>
+                <div class="floating-element">
+                    <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                        Watch how easy it is to deploy and manage AI agents with LunaOS
+                    </p>
+                </div>
+                <div class="floating-element">
+                    <button id="startDemo" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-10 py-4 rounded-full font-semibold hover:from-purple-700 hover:to-blue-700 glow-effect transition-all transform hover:scale-105">
+                        <i class="fas fa-play mr-2"></i>Start Interactive Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating 3D Elements -->
+        <div class="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-20 floating-element"></div>
+        <div class="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full opacity-20 floating-element"></div>
+        <div class="absolute bottom-20 left-1/4 w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full opacity-20 floating-element"></div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider"></div>
+
+    <!-- Demo Section -->
+    <section class="py-20 bg-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Demo Steps -->
+                <div class="space-y-8">
+                    <div class="demo-step" id="step1">
+                        <div class="p-6 rounded-xl border-l-4 border-purple-500">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-full flex items-center justify-center mr-4">
+                                    <span class="text-sm font-bold">1</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-white">Check API Health</h3>
+                            </div>
+                            <p class="text-gray-300 mb-4">First, let's verify that LunaOS is running and healthy.</p>
+                            <div class="demo-terminal p-4 rounded-lg text-sm">
+                                <div class="text-green-400">$ curl https://api.lunaos.ai/health</div>
+                                <div class="text-gray-300 mt-2" id="healthResponse">Click "Start Demo" to see the response...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-step" id="step2">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-indigo-500">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-indigo-500 text-white rounded-full flex items-center justify-center mr-4">
+                                    <span class="text-sm font-bold">2</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900">Create an AI Agent</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Deploy your first AI agent with a simple API call.</p>
+                            <div class="demo-terminal p-4 rounded-lg text-sm">
+                                <div class="text-green-400">$ curl -X POST https://api.lunaos.ai/agents \</div>
+                                <div class="text-green-400 ml-4">-H "Content-Type: application/json" \</div>
+                                <div class="text-green-400 ml-4">-d '{"name": "demo-agent", "type": "chat"}'</div>
+                                <div class="text-gray-300 mt-2" id="agentResponse">Click "Start Demo" to see the response...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-step" id="step3">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-indigo-500">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-indigo-500 text-white rounded-full flex items-center justify-center mr-4">
+                                    <span class="text-sm font-bold">3</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900">Send a Message</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Interact with your AI agent by sending a message.</p>
+                            <div class="demo-terminal p-4 rounded-lg text-sm">
+                                <div class="text-green-400">$ curl -X POST https://api.lunaos.ai/agents/demo-agent/messages \</div>
+                                <div class="text-green-400 ml-4">-H "Content-Type: application/json" \</div>
+                                <div class="text-green-400 ml-4">-d '{"message": "Hello, how are you?"}'</div>
+                                <div class="text-gray-300 mt-2" id="messageResponse">Click "Start Demo" to see the response...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-step" id="step4">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-indigo-500">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-indigo-500 text-white rounded-full flex items-center justify-center mr-4">
+                                    <span class="text-sm font-bold">4</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900">Monitor Agent Status</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Check the status and metrics of your running agents.</p>
+                            <div class="demo-terminal p-4 rounded-lg text-sm">
+                                <div class="text-green-400">$ curl https://api.lunaos.ai/agents/demo-agent/status</div>
+                                <div class="text-gray-300 mt-2" id="statusResponse">Click "Start Demo" to see the response...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live API Response -->
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Live API Response</h3>
+                    <div class="demo-terminal p-6 rounded-lg min-h-96">
+                        <div class="text-gray-400 text-sm mb-4">Waiting for demo to start...</div>
+                        <div id="liveResponse" class="text-sm">
+                            <div class="text-yellow-400">// Click "Start Demo" to see live API responses</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex space-x-4">
+                        <button id="resetDemo" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                            <i class="fas fa-redo mr-2"></i>Reset Demo
+                        </button>
+                        <a href="https://api.lunaos.ai/docs" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            <i class="fas fa-external-link-alt mr-2"></i>View API Docs
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Showcase -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What You Just Saw</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    LunaOS makes AI agent deployment and management incredibly simple
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-lg flex items-center justify-center mb-6 mx-auto">
+                        <i class="fas fa-bolt text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Lightning Fast</h3>
+                    <p class="text-gray-600">Deploy AI agents in seconds with our optimized runtime</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-lg flex items-center justify-center mb-6 mx-auto">
+                        <i class="fas fa-code text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Developer Friendly</h3>
+                    <p class="text-gray-600">Simple REST API with comprehensive documentation</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-lg flex items-center justify-center mb-6 mx-auto">
+                        <i class="fas fa-shield-alt text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Production Ready</h3>
+                    <p class="text-gray-600">Built for scale with enterprise-grade security</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                Ready to Build Your Own?
+            </h2>
+            <p class="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">
+                Start building AI-native applications with LunaOS today
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="get-started.html" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-rocket mr-2"></i>Get Started Free
+                </a>
+                <a href="https://api.lunaos.ai/docs" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition-colors">
+                    <i class="fas fa-book mr-2"></i>API Documentation
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <span class="text-2xl font-bold">🌙 LunaOS</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        The AI-native operating system for backend orchestration.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/lunaos-ai/lunaos" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="https://twitter.com/lunaos_ai" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="https://discord.gg/lunaos" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-discord text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#features" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="index.html#pricing" class="text-gray-400 hover:text-white">Pricing</a></li>
+                        <li><a href="demo.html" class="text-gray-400 hover:text-white">Demo</a></li>
+                        <li><a href="docs.html" class="text-gray-400 hover:text-white">Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="https://github.com/lunaos-ai/lunaos" class="text-gray-400 hover:text-white">GitHub</a></li>
+                        <li><a href="https://api.lunaos.ai/docs" class="text-gray-400 hover:text-white">API Docs</a></li>
+                        <li><a href="https://discord.gg/lunaos" class="text-gray-400 hover:text-white">Community</a></li>
+                        <li><a href="https://blog.lunaos.ai" class="text-gray-400 hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="https://status.lunaos.ai" class="text-gray-400 hover:text-white">Status</a></li>
+                        <li><a href="https://help.lunaos.ai" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="mailto:support@lunaos.ai" class="text-gray-400 hover:text-white">support@lunaos.ai</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2025 LunaOS. All rights reserved. Built with ❤️ for the AI community.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentStep = 0;
+        const steps = ['step1', 'step2', 'step3', 'step4'];
+        const responses = {
+            health: {
+                status: 'healthy',
+                timestamp: new Date().toISOString(),
+                version: '1.0.0',
+                uptime: '2h 15m 30s'
+            },
+            agent: {
+                id: 'demo-agent-123',
+                name: 'demo-agent',
+                type: 'chat',
+                status: 'running',
+                created_at: new Date().toISOString()
+            },
+            message: {
+                id: 'msg-456',
+                message: 'Hello, how are you?',
+                response: 'Hello! I\'m doing great, thank you for asking. How can I help you today?',
+                timestamp: new Date().toISOString()
+            },
+            status: {
+                id: 'demo-agent-123',
+                status: 'running',
+                messages_processed: 1,
+                uptime: '5m 30s',
+                memory_usage: '45MB',
+                cpu_usage: '12%'
+            }
+        };
+
+        function startDemo() {
+            currentStep = 0;
+            document.getElementById('startDemo').disabled = true;
+            document.getElementById('startDemo').textContent = 'Demo Running...';
+            
+            // Reset all steps
+            steps.forEach(step => {
+                document.getElementById(step).classList.remove('active');
+            });
+            
+            // Clear live response
+            document.getElementById('liveResponse').innerHTML = '<div class="text-gray-400 text-sm">Starting demo...</div>';
+            
+            // Start the demo sequence
+            runDemoStep();
+        }
+
+        function runDemoStep() {
+            if (currentStep >= steps.length) {
+                document.getElementById('startDemo').disabled = false;
+                document.getElementById('startDemo').textContent = 'Demo Complete - Restart Demo';
+                return;
+            }
+
+            const stepId = steps[currentStep];
+            const stepElement = document.getElementById(stepId);
+            
+            // Show current step
+            stepElement.classList.add('active');
+            
+            // Update live response
+            updateLiveResponse(stepId);
+            
+            // Move to next step after delay
+            setTimeout(() => {
+                currentStep++;
+                runDemoStep();
+            }, 3000);
+        }
+
+        function updateLiveResponse(stepId) {
+            const liveResponse = document.getElementById('liveResponse');
+            let responseData;
+            
+            switch(stepId) {
+                case 'step1':
+                    responseData = responses.health;
+                    document.getElementById('healthResponse').innerHTML = `<div class="text-green-400">${JSON.stringify(responseData, null, 2)}</div>`;
+                    break;
+                case 'step2':
+                    responseData = responses.agent;
+                    document.getElementById('agentResponse').innerHTML = `<div class="text-green-400">${JSON.stringify(responseData, null, 2)}</div>`;
+                    break;
+                case 'step3':
+                    responseData = responses.message;
+                    document.getElementById('messageResponse').innerHTML = `<div class="text-green-400">${JSON.stringify(responseData, null, 2)}</div>`;
+                    break;
+                case 'step4':
+                    responseData = responses.status;
+                    document.getElementById('statusResponse').innerHTML = `<div class="text-green-400">${JSON.stringify(responseData, null, 2)}</div>`;
+                    break;
+            }
+            
+            liveResponse.innerHTML = `<div class="text-green-400">${JSON.stringify(responseData, null, 2)}</div>`;
+        }
+
+        function resetDemo() {
+            currentStep = 0;
+            document.getElementById('startDemo').disabled = false;
+            document.getElementById('startDemo').textContent = 'Start Interactive Demo';
+            
+            // Hide all steps
+            steps.forEach(step => {
+                document.getElementById(step).classList.remove('active');
+            });
+            
+            // Reset responses
+            document.getElementById('healthResponse').textContent = 'Click "Start Demo" to see the response...';
+            document.getElementById('agentResponse').textContent = 'Click "Start Demo" to see the response...';
+            document.getElementById('messageResponse').textContent = 'Click "Start Demo" to see the response...';
+            document.getElementById('statusResponse').textContent = 'Click "Start Demo" to see the response...';
+            
+            // Clear live response
+            document.getElementById('liveResponse').innerHTML = '<div class="text-yellow-400">// Click "Start Demo" to see live API responses</div>';
+        }
+
+        // Event listeners
+        document.getElementById('startDemo').addEventListener('click', startDemo);
+        document.getElementById('resetDemo').addEventListener('click', resetDemo);
+    </script>
+</body>
+</html>

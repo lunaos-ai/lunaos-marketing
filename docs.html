@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - LunaOS</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-indigo-600">🌙 LunaOS</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="docs.html" class="text-indigo-600 px-3 py-2 text-sm font-medium">Docs</a>
+                    <a href="get-started.html" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg pt-20 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    LunaOS Documentation
+                </h1>
+                <p class="text-xl text-indigo-100 mb-8 max-w-3xl mx-auto">
+                    Everything you need to build AI-native applications with LunaOS
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Content -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow-lg p-6 sticky top-24">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Start</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#installation" class="text-indigo-600 hover:text-indigo-800">Installation</a></li>
+                            <li><a href="#first-agent" class="text-indigo-600 hover:text-indigo-800">Your First Agent</a></li>
+                            <li><a href="#plugins" class="text-indigo-600 hover:text-indigo-800">Installing Plugins</a></li>
+                        </ul>
+                        
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 mt-8">Guides</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#api-reference" class="text-indigo-600 hover:text-indigo-800">API Reference</a></li>
+                            <li><a href="#deployment" class="text-indigo-600 hover:text-indigo-800">Deployment</a></li>
+                            <li><a href="#security" class="text-indigo-600 hover:text-indigo-800">Security</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="lg:col-span-3">
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <!-- Installation -->
+                        <div id="installation" class="mb-12">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-6">Installation</h2>
+                            <p class="text-gray-600 mb-6">
+                                Get LunaOS up and running in minutes with our simple installation process.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre class="text-green-400"><code># Clone the repository
+git clone https://github.com/lunaos-ai/lunaos.git
+cd lunaos
+
+# Install dependencies
+make install
+
+# Start LunaOS
+make dev</code></pre>
+                            </div>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-4">Prerequisites</h3>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 mb-6">
+                                <li>Python 3.9+</li>
+                                <li>Docker (optional, for containerized deployment)</li>
+                                <li>Git</li>
+                            </ul>
+                        </div>
+
+                        <!-- First Agent -->
+                        <div id="first-agent" class="mb-12">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-6">Your First Agent</h2>
+                            <p class="text-gray-600 mb-6">
+                                Create and deploy your first AI agent with LunaOS.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre class="text-green-400"><code># Create a new agent
+curl -X POST http://localhost:8001/api/agents \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "my-first-agent",
+    "type": "chat",
+    "config": {
+      "model": "gpt-3.5-turbo",
+      "temperature": 0.7,
+      "system_prompt": "You are a helpful assistant."
+    }
+  }'
+
+# Send a message
+curl -X POST http://localhost:8001/api/agents/my-first-agent/messages \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Hello! How are you?",
+    "context": {"user_id": "demo-user"}
+  }'</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Plugins -->
+                        <div id="plugins" class="mb-12">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-6">Installing Plugins</h2>
+                            <p class="text-gray-600 mb-6">
+                                Extend LunaOS functionality with plugins from our registry.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre class="text-green-400"><code># Install a plugin
+curl -X POST http://localhost:8001/api/plugins/install \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "slack-integration",
+    "version": "1.0.0"
+  }'
+
+# Configure the plugin
+curl -X PUT http://localhost:8001/api/plugins/slack-integration/config \
+  -H "Content-Type: application/json" \
+  -d '{
+    "webhook_url": "https://hooks.slack.com/your-webhook",
+    "channel": "#general"
+  }'</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- API Reference -->
+                        <div id="api-reference" class="mb-12">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-6">API Reference</h2>
+                            <p class="text-gray-600 mb-6">
+                                Complete API documentation for LunaOS endpoints.
+                            </p>
+                            
+                            <div class="space-y-6">
+                                <div class="border-l-4 border-indigo-500 pl-4">
+                                    <h3 class="text-lg font-semibold text-gray-900">Health Check</h3>
+                                    <p class="text-gray-600">GET /health</p>
+                                </div>
+                                
+                                <div class="border-l-4 border-indigo-500 pl-4">
+                                    <h3 class="text-lg font-semibold text-gray-900">List Agents</h3>
+                                    <p class="text-gray-600">GET /api/agents</p>
+                                </div>
+                                
+                                <div class="border-l-4 border-indigo-500 pl-4">
+                                    <h3 class="text-lg font-semibold text-gray-900">Create Agent</h3>
+                                    <p class="text-gray-600">POST /api/agents</p>
+                                </div>
+                                
+                                <div class="border-l-4 border-indigo-500 pl-4">
+                                    <h3 class="text-lg font-semibold text-gray-900">Send Message</h3>
+                                    <p class="text-gray-600">POST /api/agents/{id}/messages</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Deployment -->
+                        <div id="deployment" class="mb-12">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-6">Deployment</h2>
+                            <p class="text-gray-600 mb-6">
+                                Deploy LunaOS to production with Docker and cloud providers.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre class="text-green-400"><code># Docker deployment
+docker-compose up -d
+
+# Production deployment
+make prod-setup
+make deploy
+
+# With Dapr (microservices)
+make dapr-dev</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Security -->
+                        <div id="security" class="mb-12">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-6">Security</h2>
+                            <p class="text-gray-600 mb-6">
+                                LunaOS includes enterprise-grade security features.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 p-6 rounded-lg">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Authentication</h3>
+                                    <p class="text-gray-600">JWT-based authentication with configurable expiration.</p>
+                                </div>
+                                
+                                <div class="bg-gray-50 p-6 rounded-lg">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Authorization</h3>
+                                    <p class="text-gray-600">Role-based access control (RBAC) for fine-grained permissions.</p>
+                                </div>
+                                
+                                <div class="bg-gray-50 p-6 rounded-lg">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Input Validation</h3>
+                                    <p class="text-gray-600">Comprehensive request validation and sanitization.</p>
+                                </div>
+                                
+                                <div class="bg-gray-50 p-6 rounded-lg">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Plugin Security</h3>
+                                    <p class="text-gray-600">Signature verification and sandboxed execution.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 gradient-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-white mb-6">
+                Ready to Get Started?
+            </h2>
+            <p class="text-xl text-indigo-100 mb-8">
+                Join the AI-native revolution with LunaOS
+            </p>
+            <a href="get-started.html" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                <i class="fas fa-rocket mr-2"></i>Get Started Free
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center mb-4">
+                <span class="text-2xl font-bold">🌙 LunaOS</span>
+            </div>
+            <p class="text-gray-400 mb-4">
+                The AI-native operating system for backend orchestration.
+            </p>
+            <div class="flex justify-center space-x-6">
+                <a href="https://github.com/lunaos-ai/lunaos" class="text-gray-400 hover:text-white">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+                <a href="https://twitter.com/lunaos_ai" class="text-gray-400 hover:text-white">
+                    <i class="fab fa-twitter text-xl"></i>
+                </a>
+                <a href="https://discord.gg/lunaos" class="text-gray-400 hover:text-white">
+                    <i class="fab fa-discord text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

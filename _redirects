@@ -1,0 +1,30 @@
+# Cloudflare Pages redirects
+
+# Investor page - clean URLs (redirects only)
+/invest /investors.html 301
+/funding /investors.html 301
+
+# Docs and contact
+/docs /docs.html 200
+/contact /contact.html 200
+
+# API documentation redirects
+/api-docs /docs.html#api-reference 301
+/documentation /docs.html 301
+
+# GitHub redirects
+/github https://github.com/lunaos-ai/luna-os.ai 301
+/repo https://github.com/lunaos-ai/luna-os.ai 301
+
+# Community redirects
+/community https://discord.gg/lunaos 301
+/discord https://discord.gg/lunaos 301
+/slack https://discord.gg/lunaos 301
+
+# Social media redirects
+/twitter https://twitter.com/lunaos_ai 301
+/linkedin https://linkedin.com/company/lunaos 301
+
+# Support redirects
+/support mailto:support@lunaos.ai 301
+/help /docs.html 301
