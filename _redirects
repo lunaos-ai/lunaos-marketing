@@ -1,30 +1,39 @@
 # Cloudflare Pages redirects
 
-# Investor page - clean URLs (redirects only)
+# ===== Product Redirects =====
+/dashboard https://agents.lunaos.ai/dashboard 302
+/signup https://agents.lunaos.ai/auth/signup 302
+/login https://agents.lunaos.ai/auth/login 302
+/studio https://studio.lunaos.ai 302
+
+# ===== Docs Redirects =====
+/docs https://docs.lunaos.ai 301
+/documentation https://docs.lunaos.ai 301
+/api-docs https://docs.lunaos.ai/api/ 301
+/quickstart https://docs.lunaos.ai/getting-started/quickstart 301
+/help https://docs.lunaos.ai 301
+
+# ===== Pricing =====
+/pricing /index.html#pricing 200
+
+# ===== Investor page =====
 /invest /investors.html 301
 /funding /investors.html 301
 
-# Docs and contact
-/docs /docs.html 200
+# ===== Contact =====
 /contact /contact.html 200
 
-# API documentation redirects
-/api-docs /docs.html#api-reference 301
-/documentation /docs.html 301
+# ===== GitHub =====
+/github https://github.com/lunaos-ai 301
+/repo https://github.com/lunaos-ai 301
 
-# GitHub redirects
-/github https://github.com/lunaos-ai/luna-os.ai 301
-/repo https://github.com/lunaos-ai/luna-os.ai 301
-
-# Community redirects
+# ===== Community =====
 /community https://discord.gg/lunaos 301
 /discord https://discord.gg/lunaos 301
-/slack https://discord.gg/lunaos 301
 
-# Social media redirects
+# ===== Social =====
 /twitter https://twitter.com/lunaos_ai 301
 /linkedin https://linkedin.com/company/lunaos 301
 
-# Support redirects
+# ===== Support =====
 /support mailto:support@lunaos.ai 301
-/help /docs.html 301
