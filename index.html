@@ -13,9 +13,19 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#6366f1">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Preconnect to Google Fonts origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Non-render-blocking font loading via media swap -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <!-- Fallback for no-JS -->
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </noscript>
 
     <style>
         *, *::before, *::after {
@@ -52,7 +62,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ===== BACKGROUNDS ===== */
         .bg-grid {
             position: fixed;
             inset: 0;
@@ -61,6 +70,7 @@
                 linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
             background-size: 64px 64px;
+            contain: strict;
         }
 
         .bg-glow {
@@ -71,6 +81,7 @@
                 radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
                 radial-gradient(ellipse 60% 40% at 80% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
                 radial-gradient(ellipse 50% 30% at 20% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 50%);
+            contain: strict;
         }
 
         .particles {
@@ -78,6 +89,7 @@
             inset: 0;
             z-index: -1;
             pointer-events: none;
+            contain: strict;
         }
 
         .particle {
@@ -88,6 +100,7 @@
             border-radius: 50%;
             box-shadow: 0 0 6px rgba(139, 92, 246, 0.6);
             animation: particleFloat 25s infinite linear;
+            will-change: transform, opacity;
         }
 
         @keyframes particleFloat {
@@ -97,7 +110,6 @@
             100% { transform: translateY(-50px) translateX(80px); opacity: 0; }
         }
 
-        /* ===== LAYOUT ===== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -115,17 +127,17 @@
             margin: 0;
         }
 
-        /* ===== HEADER ===== */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(24px) saturate(180%);
+            background: rgba(10, 10, 15, 0.92);
+            backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
             padding: 1rem 0;
+            contain: layout style;
         }
 
         .header .container {
@@ -217,7 +229,6 @@
             border-radius: 10px;
         }
 
-        /* ===== HERO ===== */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -241,7 +252,6 @@
             color: var(--violet-500);
             font-weight: 500;
             margin-bottom: 2rem;
-            animation: fadeUp 0.8s ease-out;
         }
 
         .hero-badge .dot {
@@ -263,7 +273,6 @@
             line-height: 1.1;
             letter-spacing: -0.03em;
             margin-bottom: 1.5rem;
-            animation: fadeUp 0.8s ease-out 0.1s both;
         }
 
         .hero h1 .gradient-text {
@@ -279,7 +288,6 @@
             max-width: 600px;
             margin: 0 auto 2.5rem;
             line-height: 1.7;
-            animation: fadeUp 0.8s ease-out 0.2s both;
         }
 
         .hero-actions {
@@ -288,10 +296,8 @@
             justify-content: center;
             flex-wrap: wrap;
             margin-bottom: 3rem;
-            animation: fadeUp 0.8s ease-out 0.3s both;
         }
 
-        /* CLI Install Bar */
         .cli-bar {
             display: inline-flex;
             align-items: center;
@@ -300,7 +306,6 @@
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 0.5rem 0.5rem 0.5rem 1.2rem;
-            animation: fadeUp 0.8s ease-out 0.4s both;
         }
 
         .cli-bar code {
@@ -336,7 +341,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== SOCIAL PROOF BAR ===== */
         .social-proof {
             padding: 3rem 0;
             background: rgba(255, 255, 255, 0.02);
@@ -369,7 +373,6 @@
             font-size: 1.2rem;
         }
 
-        /* ===== AGENT SHOWCASE ===== */
         .agents-showcase {
             padding: 6rem 0;
         }
@@ -513,13 +516,12 @@
             overflow: hidden;
         }
 
-        .agent-output .comment { color: var(--neutral-500); }
+        .agent-output .comment { color: var(--neutral-400); }
         .agent-output .keyword { color: var(--violet-500); }
         .agent-output .string { color: var(--emerald-400); }
         .agent-output .warn { color: var(--amber-400); }
         .agent-output .error { color: var(--rose-400); }
 
-        /* ===== HOW IT WORKS ===== */
         .how-it-works {
             padding: 6rem 0;
         }
@@ -605,7 +607,6 @@
 
         .step-terminal .prompt { color: var(--emerald-400); }    
 
-        /* ===== ARCHITECTURE ===== */
         .architecture {
             padding: 6rem 0;
         }
@@ -623,7 +624,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            color: var(--neutral-500);
+            color: var(--neutral-400);
             border-bottom: 1px solid var(--border);
         }
 
@@ -649,7 +650,6 @@
             color: var(--violet-500);
         }
 
-        /* ===== PRICING ===== */
         .pricing {
             padding: 6rem 0;
         }
@@ -705,7 +705,7 @@
 
         .price-desc {
             font-size: 0.85rem;
-            color: var(--neutral-500);
+            color: var(--neutral-400);
             margin-bottom: 1.5rem;
         }
 
@@ -720,7 +720,7 @@
         }
 
         .price-amount .period {
-            color: var(--neutral-500);
+            color: var(--neutral-400);
             font-size: 0.9rem;
         }
 
@@ -750,7 +750,6 @@
             justify-content: center;
         }
 
-        /* ===== CTA ===== */
         .final-cta {
             padding: 6rem 0;
             text-align: center;
@@ -779,10 +778,12 @@
             flex-wrap: wrap;
         }
 
-        /* ===== FOOTER ===== */
         .footer {
             padding: 4rem 0 2rem;
             border-top: 1px solid var(--border);
+            background-color: #0a0a0f;
+            position: relative;
+            z-index: 1;
         }
 
         .footer-grid {
@@ -793,13 +794,13 @@
         }
 
         .footer-brand p {
-            color: var(--neutral-500);
+            color: #d1d5db;
             font-size: 0.85rem;
             margin-top: 0.75rem;
             line-height: 1.6;
         }
 
-        .footer-col h4 {
+        .footer-col .footer-heading {
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -810,7 +811,7 @@
 
         .footer-col a {
             display: block;
-            color: var(--neutral-500);
+            color: var(--neutral-400);
             text-decoration: none;
             font-size: 0.85rem;
             padding: 0.3rem 0;
@@ -825,18 +826,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: var(--neutral-500);
+            color: var(--neutral-400);
             font-size: 0.8rem;
         }
 
         .footer-bottom a {
-            color: var(--neutral-500);
+            color: var(--neutral-400);
             text-decoration: none;
         }
 
         .footer-bottom a:hover { color: white; }
 
-        /* ===== SCROLL REVEAL ===== */
         .reveal {
             opacity: 0;
             transform: translateY(32px);
@@ -848,7 +848,6 @@
             transform: translateY(0);
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 968px) {
             .agents-grid { grid-template-columns: repeat(2, 1fr); }
             .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
@@ -888,13 +887,16 @@
                     <li><a href="#agents">Agents</a></li>
                     <li><a href="#how-it-works">How it Works</a></li>
                     <li><a href="#pricing">Pricing</a></li>
-                    <li><a href="https://docs.lunaos.ai" target="_blank">Docs</a></li>
-                    <li><a href="https://studio.lunaos.ai" target="_blank">Studio</a></li>
+                    <li><a href="https://docs.lunaos.ai" target="_blank" rel="noopener">Docs</a></li>
+                    <li><a href="https://studio.lunaos.ai" target="_blank" rel="noopener">Studio</a></li>
                     <li><a href="https://agents.lunaos.ai/dashboard" class="btn btn-glow" id="nav-cta">Dashboard</a></li>
                 </ul>
             </nav>
         </div>
     </header>
+
+    <!-- Main Content -->
+    <main id="main">
 
     <!-- Hero -->
     <section class="hero">
@@ -909,7 +911,7 @@
             </p>
             <div class="hero-actions">
                 <a href="https://agents.lunaos.ai/auth/signup" class="btn btn-glow btn-lg" id="hero-signup">Get Started Free</a>
-                <a href="https://github.com/lunaos-ai" target="_blank" class="btn btn-ghost btn-lg" id="hero-github">⭐ Star on GitHub</a>
+                <a href="https://github.com/lunaos-ai" target="_blank" rel="noopener" class="btn btn-ghost btn-lg" id="hero-github">⭐ Star on GitHub</a>
             </div>
             <div class="cli-bar">
                 <code><span class="dollar">$</span> npm i -g @luna-agents/cli</code>
@@ -1249,10 +1251,12 @@
             <p>Join thousands of developers using AI agents to write, test, and deploy faster.</p>
             <div class="cta-buttons">
                 <a href="https://agents.lunaos.ai/auth/signup" class="btn btn-glow btn-lg" id="final-signup">Start Free →</a>
-                <a href="https://docs.lunaos.ai/getting-started/quickstart" target="_blank" class="btn btn-ghost btn-lg" id="final-docs">Read the Docs</a>
+                <a href="https://docs.lunaos.ai/getting-started/quickstart" target="_blank" rel="noopener" class="btn btn-ghost btn-lg" id="final-docs">Read the Docs</a>
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
@@ -1266,21 +1270,21 @@
                     <p>AI-Powered Development Intelligence.<br>28 specialized agents for your entire SDLC.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>Product</h4>
+                    <p class="footer-heading" role="heading" aria-level="2">Product</p>
                     <a href="#agents">Agents</a>
-                    <a href="https://docs.lunaos.ai" target="_blank">Documentation</a>
+                    <a href="https://docs.lunaos.ai" target="_blank" rel="noopener">Documentation</a>
                     <a href="#pricing">Pricing</a>
-                    <a href="https://studio.lunaos.ai" target="_blank">Studio</a>
+                    <a href="https://studio.lunaos.ai" target="_blank" rel="noopener">Studio</a>
                 </div>
                 <div class="footer-col">
-                    <h4>Developers</h4>
-                    <a href="https://docs.lunaos.ai/getting-started/quickstart" target="_blank">Quickstart</a>
-                    <a href="https://docs.lunaos.ai/api/" target="_blank">API Reference</a>
-                    <a href="https://github.com/lunaos-ai" target="_blank">GitHub</a>
-                    <a href="https://docs.lunaos.ai/agents/" target="_blank">Agent Catalog</a>
+                    <p class="footer-heading" role="heading" aria-level="2">Developers</p>
+                    <a href="https://docs.lunaos.ai/getting-started/quickstart" target="_blank" rel="noopener">Quickstart</a>
+                    <a href="https://docs.lunaos.ai/api/" target="_blank" rel="noopener">API Reference</a>
+                    <a href="https://github.com/lunaos-ai" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://docs.lunaos.ai/agents/" target="_blank" rel="noopener">Agent Catalog</a>
                 </div>
                 <div class="footer-col">
-                    <h4>Company</h4>
+                    <p class="footer-heading" role="heading" aria-level="2">Company</p>
                     <a href="contact.html">Contact</a>
                     <a href="investors.html">Investors</a>
                     <a href="mailto:hello@lunaos.ai">hello@lunaos.ai</a>
@@ -1288,16 +1292,16 @@
             </div>
             <div class="footer-bottom">
                 <span>© 2026 LunaOS. Built with ❤️ for developers.</span>
-                <a href="https://github.com/lunaos-ai" target="_blank">GitHub</a>
+                <a href="https://github.com/lunaos-ai" target="_blank" rel="noopener">GitHub</a>
             </div>
         </div>
     </footer>
 
     <script>
-        // Particles
-        (function () {
+        // Particles - deferred to after page load for better FCP/LCP
+        window.addEventListener('load', function () {
             const c = document.getElementById('particles');
-            for (let i = 0; i < 35; i++) {
+            for (let i = 0; i < 15; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle';
                 p.style.left = Math.random() * 100 + '%';
@@ -1305,7 +1309,7 @@
                 p.style.animationDuration = (Math.random() * 12 + 18) + 's';
                 c.appendChild(p);
             }
-        })();
+        });
 
         // Scroll Reveal
         const observer = new IntersectionObserver(
@@ -1322,12 +1326,7 @@
             setTimeout(() => (btn.textContent = 'Copy'), 2000);
         }
 
-        // Smooth fade-in
-        document.body.style.opacity = '0';
-        requestAnimationFrame(() => {
-            document.body.style.transition = 'opacity 0.6s ease';
-            document.body.style.opacity = '1';
-        });
+        // Page is visible immediately for fast FCP/LCP
     </script>
 </body>
 </html>

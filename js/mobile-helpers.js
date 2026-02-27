@@ -284,24 +284,7 @@
     /**
      * Performance Monitoring
      */
-    if ('PerformanceObserver' in window) {
-        try {
-            const perfObserver = new PerformanceObserver((list) => {
-                for (const entry of list.getEntries()) {
-                    if (entry.entryType === 'largest-contentful-paint') {
-                        console.log('LCP:', entry.startTime);
-                    }
-                    if (entry.entryType === 'first-input') {
-                        console.log('FID:', entry.processingStart - entry.startTime);
-                    }
-                }
-            });
-
-            perfObserver.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
-        } catch (e) {
-            // Fail silently
-        }
-    }
+    /* Performance observer removed - no console.log in production */
 
     /**
      * Detect if running as PWA
